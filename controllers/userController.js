@@ -146,3 +146,39 @@ exports.loginController = async (req, res) => {
     res.status(401).json(error);
   }
 };
+
+// update profile
+exports.updateProfileController = async (req, res) => {
+  console.log("Inside updateProfile controller.");
+  
+  const userId = req.payload;
+  console.log(userId);
+
+  const { username, email, password, github, linkedin, profile } = req.body;
+  console.log(username, email, password, github, linkedin, profile);
+
+  const profileImg = req.file ? req.file.filename : profile;
+  console.log("profileImg: ", profileImg);
+
+  try {
+    const existingProject = await projects.findByIdAndUpdate(
+      { _id: id },
+      {
+        title,
+        language,
+        github,
+        website,
+        overview,
+        projectImage: projectimage,
+        userId,
+      },
+      { new: true }
+    );
+    console.log(existingProject);
+    
+    await existingProject.save();
+    res.status(200).json(existingProject);
+  } catch (error) {
+    res.status(401).json(error);
+  }
+};

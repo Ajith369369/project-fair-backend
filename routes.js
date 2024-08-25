@@ -70,7 +70,7 @@ router.delete("/remove-user-project/:id", projectController.deleteUserProjectCon
 router.put("/edit-project/:id", jwt, multer.single("projectImg"), projectController.editUserProjectController);
 
 // update profile
-router.put("/update-profile", jwt, multer.single("profile"), projectController.updateProfileController);
+router.put("/update-profile", jwt, multer.single("profile"), userController.updateProfileController);
 
 // export module to backend
 // Exporting the router
