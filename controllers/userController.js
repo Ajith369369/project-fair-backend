@@ -142,7 +142,7 @@ exports.updateProfileController = async (req, res) => {
   console.log("Inside updateProfile controller.");
 
   const userId = req.payload;
-  console.log(userId);
+  console.log('userId: ', userId)
 
   const { username, email, password, github, linkedin, profile } = req.body;
   console.log(username, email, password, github, linkedin, profile);
@@ -152,7 +152,7 @@ exports.updateProfileController = async (req, res) => {
 
   try {
     const existingUser = await users.findByIdAndUpdate(
-      { _id: id },
+      { _id: userId },
       {
         username,
         email,
@@ -163,7 +163,7 @@ exports.updateProfileController = async (req, res) => {
       },
       { new: true }
     );
-    console.log(existingUser);
+    console.log('existingUser: ', existingUser)
 
     await existingUser.save();
 
