@@ -48,7 +48,7 @@ router.post("/login", userController.loginController);
 // Path: /add-project
 // Method: POST
 // Middlewares:
-  // jwt: Ensures the request is authenticated via a JWT.
+  // jwt: Ensures the request is authenticated via a JWT. jwt is used to get userId
   // multer.single("projectImg"): Handles the file upload for a single image file, which should be passed with the form field name "projectImg".
 // Allows authenticated users to add a project. The addProjectController function in projectController is executed, processing the uploaded project image along with other project details.
 router.post("/add-project", jwt, multer.single("projectImg"), projectController.addProjectController);
@@ -61,15 +61,18 @@ router.get("/home-project", projectController.getHomeProjectController);
 router.get("/all-project", projectController.getAllProjectController);
 
 // get user projects
+// jwt is used to get userId
 router.get("/user-project", jwt, projectController.getUserProjectController);
 
 // delete user projects
 router.delete("/remove-user-project/:id", projectController.deleteUserProjectController);
 
 // edit user projects
+// jwt is used to get userId
 router.put("/edit-project/:id", jwt, multer.single("projectImg"), projectController.editUserProjectController);
 
 // update profile
+// jwt is used to get userId
 router.put("/update-profile", jwt, multer.single("profile"), userController.updateProfileController);
 
 // export module to backend

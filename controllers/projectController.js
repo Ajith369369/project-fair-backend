@@ -97,7 +97,7 @@ exports.deleteUserProjectController = async (req, res) => {
 
 // edit user project
 exports.editUserProjectController = async (req, res) => {
-  console.log("Inside editProject controller.");
+  console.log("Inside editUserProject Controller.");
   
   const { title, language, github, website, overview, projectImg } = req.body;
   console.log(title, language, github, website, overview, projectImg);
@@ -109,7 +109,7 @@ exports.editUserProjectController = async (req, res) => {
   console.log("id: ", id);
 
   const userId = req.payload;
-  console.log(userId);
+  console.log('userId: ', userId)
   
   try {
     const existingProject = await projects.findByIdAndUpdate(
