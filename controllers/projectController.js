@@ -49,7 +49,6 @@ exports.getAllProjectController = async (req, res) => {
   console.log('req.query: ', req.query)
   // return await commonApi("GET", `${serverUrl}/all-project?search=${searchKey}`, "", "");
   const searchKey = req.query.search;
-
   console.log("searchKey: ", searchKey);
 
   const query = {
@@ -58,6 +57,7 @@ exports.getAllProjectController = async (req, res) => {
       $options: "i",
     },
   };
+  console.log('query: ', query)
 
   try {
     const allProject = await projects.find(query);
