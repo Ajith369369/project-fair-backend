@@ -54,6 +54,8 @@ exports.getAllProjectController = async (req, res) => {
   const query = {
     language: {
       $regex: searchKey,
+
+      // Remove case sensitivity
       $options: "i",
     },
   };
