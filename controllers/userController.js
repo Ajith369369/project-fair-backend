@@ -16,7 +16,6 @@ const jwt = require("jsonwebtoken");
 // It will handle the HTTP request and response cycle for user registration.
 // This function will handle the registration process when a client makes a registration request.
 exports.registerController = async (req, res) => {
-
   // Logs a message to the console to indicate that the registerController function has been invoked/called.
   console.log("Inside registerController");
 
@@ -31,24 +30,21 @@ exports.registerController = async (req, res) => {
 
   // Starts a try block to handle potential errors that may occur during the execution of the code.
   try {
-
     // Uses the users model to search the database for a user with the matching email.
     // users is a Mongoose model representing the users collection in MongoDB.
     // Checks if a user with the given email already exists in the database. If the user is found, it will be stored in the existingUser variable.
     // await pauses the execution until the promise returned by users.findOne() is resolved.
-    const existingUser = await users.findOne({ email }); 
+    const existingUser = await users.findOne({ email });
 
     // email: email => email => email(model): email(console.log(username, email, password);)
 
     // If existingUser is not null (i.e., a user with the given email is found), this condition will be true.
     if (existingUser) {
-
       // If a user with the provided email already exists, the server responds with a 406 Not Acceptable status code and a JSON message "Account already exists!". This informs the client that the email is already in use.
       res.status(406).json("Account already exists!");
 
       // If no existing user is found with the given email, this block of code will execute.
     } else {
-
       // Creates a new instance of the users model.
       // The users model corresponds to the user schema in the MongoDB database.
       // The new user's details, including username, email, and password, are assigned.
@@ -73,7 +69,6 @@ exports.registerController = async (req, res) => {
 
     // If an error occurs at any point in the try block, this catch block will handle it.
   } catch (error) {
-
     // If an error is caught, the server responds with a 401 Unauthorized status code and the error message as a JSON response. This informs the client that something went wrong during the registration process.
     res.status(401).json(error);
   }
@@ -91,10 +86,9 @@ exports.registerController = async (req, res) => {
 // It will handle the HTTP request and response cycle for user login.
 // This function will handle the login process when a client makes a login request.
 exports.loginController = async (req, res) => {
-
   // Logs a message to the console to indicate that the loginController function has been invoked/called.
-  console.log('Inside login controller.');
-  
+  console.log("Inside login controller.");
+
   // Destructures email and password properties from the req.body object.
   // req.body contains the data sent by the client (e.g., via a login form submission).
   const { email, password } = req.body;
@@ -104,7 +98,6 @@ exports.loginController = async (req, res) => {
 
   // Starts a try block to handle potential errors that may occur during the execution of the code.
   try {
-
     // Uses the users model to search the database for a user with the matching email and password.
     // users is a Mongoose model representing the users collection in MongoDB.
     // Checks if a user with the given email and password exists in the database. If the user is found, it will be stored in the existingUser variable.
@@ -116,7 +109,6 @@ exports.loginController = async (req, res) => {
 
     // If existingUser is not null (i.e., a user with the given email and password was found), this condition will be true.
     if (existingUser) {
-
       // If a user is found, this line generates a JWT (JSON Web Token).
       // The token is created using the jwt.sign() method, which takes a payload (in this case, the user's ID) and a secret key ("supersecretkey").
       // The token will be used for authenticating future requests from the client.
@@ -128,12 +120,11 @@ exports.loginController = async (req, res) => {
       // If the login is successful, the server responds with a 200 OK status code and sends back a JSON object containing the existingUser data and the token.
       // This allows the client to use the token for subsequent authenticated requests.
       res.status(200).json({ existingUser, token });
-      console.log('existingUser: ', existingUser)
-      console.log('token: ', token)
+      console.log("existingUser: ", existingUser);
+      console.log("token: ", token);
 
       // If no user is found with the given email and password, this block of code will execute.
     } else {
-
       // If the user is not found, the server responds with a 406 Not Acceptable status code and a message saying "Account does not exist".
       // This informs the client that the login credentials are incorrect or the account does not exist.
       res.status(406).json("Account does not exist");
@@ -141,7 +132,6 @@ exports.loginController = async (req, res) => {
 
     // If an error occurs at any point in the try block, this catch block will handle it.
   } catch (error) {
-
     // If an error is caught, the server responds with a 401 Unauthorized status code and the error message as a JSON response. This informs the client that something went wrong during the login process.
     res.status(401).json(error);
   }
@@ -150,7 +140,7 @@ exports.loginController = async (req, res) => {
 // update profile
 exports.updateProfileController = async (req, res) => {
   console.log("Inside updateProfile controller.");
-  
+
   const userId = req.payload;
   console.log(userId);
 
@@ -161,23 +151,23 @@ exports.updateProfileController = async (req, res) => {
   console.log("profileImg: ", profileImg);
 
   try {
-    const existingProject = await projects.findByIdAndUpdate(
+    const existingUser = await users.findByIdAndUpdate(
       { _id: id },
       {
-        title,
-        language,
+        username,
+        email,
+        password,
         github,
-        website,
-        overview,
-        projectImage: projectimage,
-        userId,
+        linkedin,
+        profile:profileImg
       },
       { new: true }
     );
-    console.log(existingProject);
-    
-    await existingProject.save();
-    res.status(200).json(existingProject);
+    console.log(existingUser);
+
+    await existingUser.save();
+
+    res.status(200).json(existingUser);
   } catch (error) {
     res.status(401).json(error);
   }
